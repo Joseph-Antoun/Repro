@@ -111,7 +111,7 @@ def plot_experiments(methods):
     # Plot the Ks-statistic
     plot_KS_statistic(posteriors, 'n', "./figures/n/KS_statistic.png")
     # Plot the runtimes for this particular experiment
-    plot_runtimes(pd.concat(runtimes_lst, axis=0), "./figures/n/runtimes.png")
+    # plot_runtimes(pd.concat(runtimes_lst, axis=0), "./figures/n/runtimes.png")
 
 
     #--------------------------------------------------------------------------
@@ -119,7 +119,7 @@ def plot_experiments(methods):
     # Loop over the privacy setting epsilon
     #--------------------------------------------------------------------------
     runtimes_lst = []
-    params_means = pd.DataFrame(index=range(9*len(methods)), columns=['param', 'method', 'n', 'value'])
+    params_means = pd.DataFrame(index=range(9*len(methods)), columns=['param', 'method', 'e', 'value'])
     posteriors   = {}
     i = 0
 
@@ -139,20 +139,20 @@ def plot_experiments(methods):
             for param in posterior[method].columns:
                 params_means.at[i, 'param']     = param
                 params_means.at[i, 'method']    = method
-                params_means.at[i, 'n']         = N
+                params_means.at[i, 'e']         = epsilon
                 params_means.at[i, 'value']     = posterior[method][param].mean()
                 i = i + 1
 
         # reconstruct the runtimes per method per iteration
-        runtimes['n'] = N
+        runtimes['e'] = epsilon
         runtimes_lst.append(runtimes)
         # Add to the list of posterior distributions that will be used to compute the KN statistic
-        posteriors['%s'%N] = posterior
+        posteriors['%s'%epsilon] = posterior
 
     # Plot the Ks-statistic
-    plot_KS_statistic(posteriors, 'n', "./figures/epsilon/KS_statistic.png")
+    plot_KS_statistic(posteriors, 'e', "./figures/epsilon/KS_statistic.png")
     # Plot the runtimes for this particular experiment
-    plot_runtimes(pd.concat(runtimes_lst, axis=0), "./figures/epsilon/runtimes.png")
+    # plot_runtimes(pd.concat(runtimes_lst, axis=0), "./figures/epsilon/runtimes.png")
 
 
 
